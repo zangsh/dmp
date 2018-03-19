@@ -34,25 +34,6 @@ public class SysUser {
     @Autowired
     private RedisUtils redisUtils;
 
-    @RequestMapping("/sayHello")
-    public String sayHello(){
-        Object obj = null;
-        if (redisUtils.exists("aktest")){
-            obj = redisUtils.get("aktest");
-            HashMap map = (HashMap) obj;
-            for (Object key : map.keySet()){
-                System.out.println(key + ":" +map.get(key));
-            }
-        }
-        return "Hello SpringBoot!" + obj;
-    }
-
-    @RequestMapping("/redisHandler")
-    public String redisHandler(){
-        stringRedisTemplate.opsForValue().set("k5", "Springboot redis");
-        return stringRedisTemplate.opsForValue().get("k5");
-    }
-
     /**
      * 用户登陆校验获取相应信息
      * @param json
