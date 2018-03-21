@@ -4,6 +4,7 @@ import com.mw.dmp.constants.ConstantsField;
 import com.mw.dmp.helper.RedisUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 
@@ -27,15 +28,16 @@ public class CorsFilter implements Filter {
     @Autowired
     private RedisUtils redisUtils;
 
+    @Value("${notfilter}")
+    private String notfilter;
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        System.out.println("init................");
 
     }
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
-        System.out.println("doFilter................");
         HttpServletRequest request = (HttpServletRequest)req;
         HttpServletResponse response = (HttpServletResponse) res;
         response.setHeader("Access-Control-Allow-Origin", "*");
@@ -45,28 +47,26 @@ public class CorsFilter implements Filter {
         response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept,JSESSIONID");
         String uri = request.getRequestURI();
         //非登录的请求，判断用户是否已经登陆，根据是否存在正确的token
-        if(uri.indexOf("/sys/postUserLogin") == -1) {
+        if(uri.indexOf(notfilter) == -1) {
             Cookie[] cookies = request.getCookies();
             if (cookies != null){
                 for (Cookie cookie : cookies) {
                     //如果用户合法，刷新token过期时间
                     if (ConstantsField.COOKIE_NAME.equals(cookie.getName())){
                         if (redisUtils.exists(cookie.getValue())){
+                            request.setAttribute("token",cookie.getValue());
                             redisUtils.set(cookie.getValue(),redisUtils.get(cookie.getValue()),ConstantsField.REDIS_EXPIRETIME);
                         }else {
                             response.sendError(HttpStatus.NOT_FOUND.value(),"错误的令牌！");
-                            chain.doFilter(request, response);
                             return;
                         }
                     }else {
                         response.sendError(HttpStatus.NOT_FOUND.value(),"令牌不存在！");
-                        chain.doFilter(request, response);
                         return;
                     }
                 }
             }else {
                 response.sendError(HttpStatus.NOT_FOUND.value(),"令牌不存在！");
-                chain.doFilter(request, response);
                 return;
             }
         }
@@ -75,6 +75,6 @@ public class CorsFilter implements Filter {
 
     @Override
     public void destroy() {
-        System.out.println("destroy................");
+
     }
 }
