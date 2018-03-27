@@ -2,6 +2,7 @@ package com.mw.dmp.filter;
 
 import com.mw.dmp.constants.ConstantsField;
 import com.mw.dmp.helper.RedisUtils;
+import com.mw.dmp.helper.ResultUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,6 +41,8 @@ public class CorsFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest)req;
         HttpServletResponse response = (HttpServletResponse) res;
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=utf-8");
         response.setHeader("Access-Control-Allow-Origin", "*");
         //, GET, OPTIONS, DELETE
         response.setHeader("Access-Control-Allow-Methods", "POST");
@@ -57,16 +60,16 @@ public class CorsFilter implements Filter {
                             request.setAttribute("token",cookie.getValue());
                             redisUtils.set(cookie.getValue(),redisUtils.get(cookie.getValue()),ConstantsField.REDIS_EXPIRETIME);
                         }else {
-                            response.sendError(HttpStatus.NOT_FOUND.value(),"错误的令牌！");
+                            response.getWriter().write(ResultUtils.ERROR(501,"错误的令牌！",null));
                             return;
                         }
                     }else {
-                        response.sendError(HttpStatus.NOT_FOUND.value(),"令牌不存在！");
+                        response.getWriter().write( ResultUtils.ERROR(502,"错误的令牌名！",null));
                         return;
                     }
                 }
             }else {
-                response.sendError(HttpStatus.NOT_FOUND.value(),"令牌不存在！");
+                response.getWriter().write( ResultUtils.ERROR(503,"令牌不存在！",null));
                 return;
             }
         }

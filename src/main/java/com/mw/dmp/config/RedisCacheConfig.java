@@ -27,7 +27,7 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
     @Bean
     public CacheManager cacheManager(RedisTemplate redisTemplate) {
         RedisCacheManager cacheManager = new RedisCacheManager(redisTemplate);
-        //获取50以内的随机数、防止缓存雪崩
+        //过期时间追加20分钟以内的随机时间、防止缓存雪崩
         int exTime = 40*60 + (int) (600 + Math.random()*20*60);
         cacheManager.setDefaultExpiration(exTime);
         return cacheManager;
