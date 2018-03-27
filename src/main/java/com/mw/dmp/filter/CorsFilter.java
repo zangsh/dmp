@@ -3,6 +3,7 @@ package com.mw.dmp.filter;
 import com.mw.dmp.constants.ConstantsField;
 import com.mw.dmp.helper.RedisUtils;
 import com.mw.dmp.helper.ResultUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,31 +46,24 @@ public class CorsFilter implements Filter {
         response.setContentType("application/json; charset=utf-8");
         response.setHeader("Access-Control-Allow-Origin", "*");
         //, GET, OPTIONS, DELETE
-        response.setHeader("Access-Control-Allow-Methods", "POST");
+        response.setHeader("Access-Control-Allow-Methods", "POST,GET");
         response.setHeader("Access-Control-Max-Age", "3600");
-        response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept,JSESSIONID");
+        response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept,JSESSIONID,dmp");
         String uri = request.getRequestURI();
         //非登录的请求，判断用户是否已经登陆，根据是否存在正确的token
         if(uri.indexOf(notfilter) == -1) {
-            Cookie[] cookies = request.getCookies();
-            if (cookies != null){
-                for (Cookie cookie : cookies) {
+            String dmpToken = request.getHeader("dmp");
+            if (!StringUtils.isEmpty(dmpToken)){
                     //如果用户合法，刷新token过期时间
-                    if (ConstantsField.COOKIE_NAME.equals(cookie.getName())){
-                        if (redisUtils.exists(cookie.getValue())){
-                            request.setAttribute("token",cookie.getValue());
-                            redisUtils.set(cookie.getValue(),redisUtils.get(cookie.getValue()),ConstantsField.REDIS_EXPIRETIME);
+                        if (redisUtils.exists(dmpToken)){
+                            request.setAttribute("token",dmpToken);
+                            redisUtils.set(dmpToken,redisUtils.get(dmpToken),ConstantsField.REDIS_EXPIRETIME);
                         }else {
                             response.getWriter().write(ResultUtils.ERROR(501,"错误的令牌！",null));
                             return;
                         }
-                    }else {
-                        response.getWriter().write( ResultUtils.ERROR(502,"错误的令牌名！",null));
-                        return;
-                    }
-                }
             }else {
-                response.getWriter().write( ResultUtils.ERROR(503,"令牌不存在！",null));
+                response.getWriter().write( ResultUtils.ERROR(502,"令牌不存在！",null));
                 return;
             }
         }

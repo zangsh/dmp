@@ -43,7 +43,7 @@ public class SysUser {
         Map<String,Object> map = FastJsonUtils.stringToMap(json);
         Map<String,Object> data = iSysUser.getUserInfo(map);
         //合法用户获取token存储redis
-        if (!data.isEmpty()){
+        if (!(data == null || data.isEmpty())){
             String userId = data.get("user_id").toString();
             String token = TokenUtils.encode(map);
             redisUtils.set(token,userId, ConstantsField.REDIS_EXPIRETIME);

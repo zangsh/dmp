@@ -35,8 +35,8 @@ public class SysMenu {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/getMenuList",method = RequestMethod.GET)
-    public String getMenuList(String json, HttpServletRequest request){
+    @RequestMapping(value = "/getMenuList",method = RequestMethod.POST)
+    public String getMenuList(@RequestBody String json, HttpServletRequest request){
         Map<String,Object> params = FastJsonUtils.stringToMap(json);
         String userId = userUtils.getUserId(request);
         params.put("userId",userId);
