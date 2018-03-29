@@ -11,6 +11,6 @@ public interface SysUserDao {
      * @param params
      * @return
      */
-    @Cacheable(value = "dmp",key = "#p0['username'].toString()")
+    @Cacheable(value = "dmpUser",key = "#p0['username'].toString()")
     Map<String,Object> getUserInfo(@Param(value = "params") Map<String,Object> params);
 }

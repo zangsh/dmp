@@ -8,6 +8,6 @@ import java.util.Map;
 
 public interface SysMenuDao {
 
-    @Cacheable(value = "dmp",key = "#p0['userId'].toString() + #p0['menuId'].toString()")
+    @Cacheable(value = "dmpMenu",key = "#p0['userId'].toString() + #p0['menuId'].toString()")
     List<Map<String,Object>> getMenuList(@Param(value = "params") Map<String,Object> params);
 }
