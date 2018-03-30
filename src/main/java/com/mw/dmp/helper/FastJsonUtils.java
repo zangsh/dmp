@@ -84,7 +84,7 @@ public class FastJsonUtils {
      * 将map转化为string
      */
     public static String mapToString(Map m) {
-        return JSONObject.toJSONString(m, config, SerializerFeature.DisableCircularReferenceDetect);
+        return JSONObject.toJSONString(m, config, features);
     }
 
     /**
