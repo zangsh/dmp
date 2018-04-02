@@ -28,6 +28,10 @@ public class ResultUtils {
         return OK(null);
     }
 
+    public static String OK(String msg){
+        return OK(OK_CODE,msg,null);
+    }
+
     public static String OK(Object data){
         return OK(OK_CODE,data);
     }
@@ -49,6 +53,10 @@ public class ResultUtils {
      */
     public static String ERROR(){
         return ERROR(null);
+    }
+
+    public static String ERROR(String msg){
+        return ERROR(ERROR_CODE,msg,null);
     }
 
     public static String ERROR(Object data){
