@@ -38,4 +38,16 @@ public class SysDictionary {
         List<Map<String, Object>> data = iSysDictionary.getEchartCode(map);
         return ResultUtils.OK(data);
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/getCompany")
+    public String getCompany(@RequestBody String json){
+        logger.info("getCompany参数：" + json);
+        Map<String,Object> map = FastJsonUtils.stringToMap(json);
+        if (!map.containsKey("code")){
+            return ResultUtils.ERROR("不正确的参数！");
+        }
+        List<Map<String, Object>> data = iSysDictionary.getCompany(map);
+        return ResultUtils.OK(data);
+    }
 }

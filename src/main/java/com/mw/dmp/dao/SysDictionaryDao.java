@@ -15,4 +15,13 @@ public interface SysDictionaryDao {
      */
     @Cacheable(value = "dmpDictionary",key = "'echartcode_' + #p0['code'].toString()")
     List<Map<String,Object>> getEchartCode(@Param(value = "params") Map<String, Object> params);
+
+    /**
+     * 获取公司字典项
+     * 并且缓存信息
+     * @param params
+     * @return
+     */
+    @Cacheable(value = "dmpDictionary",key = "'company_' + #p0['code'].toString()")
+    List<Map<String,Object>> getCompany(@Param(value = "params") Map<String, Object> params);
 }

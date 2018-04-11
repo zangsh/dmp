@@ -10,4 +10,11 @@ public interface ISysDictionary {
      * @return
      */
     List<Map<String, Object>> getEchartCode(Map<String, Object> params);
+
+    /**
+     * 获取公司字典项
+     * @param params
+     * @return
+     */
+    List<Map<String, Object>> getCompany(Map<String, Object> params);
 }

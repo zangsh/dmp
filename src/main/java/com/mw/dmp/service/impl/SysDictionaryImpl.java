@@ -18,4 +18,9 @@ public class SysDictionaryImpl implements ISysDictionary {
     public List<Map<String, Object>> getEchartCode(Map<String, Object> params) {
         return sysDictionaryDao.getEchartCode(params);
     }
+
+    @Override
+    public List<Map<String, Object>> getCompany(Map<String, Object> params) {
+        return sysDictionaryDao.getCompany(params);
+    }
 }

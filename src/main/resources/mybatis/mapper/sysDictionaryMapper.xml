@@ -7,4 +7,11 @@
             AND echart_code = #{params.code}
         </if>
     </select>
+
+    <select id="getCompany" parameterType="Map" resultType="Map">
+        SELECT company_name,company_code FROM d_company WHERE delete_flag = 0
+        <if test="params.code != null and params.code != ''">
+            AND company_code = #{params.code}
+        </if>
+    </select>
 </mapper>
