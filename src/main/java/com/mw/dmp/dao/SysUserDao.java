@@ -13,4 +13,13 @@ public interface SysUserDao {
      */
     @Cacheable(value = "dmpUser",key = "#p0['username'].toString()")
     Map<String,Object> getUserInfo(@Param(value = "params") Map<String,Object> params);
+
+
+    /**
+     * 根据用户ID获取用户信息
+     * @param userId  用户ID
+     * @return
+     */
+    @Cacheable(value = "dmpUser",key = "'getCurrentUserInfoForId_' + #userId")
+    Map getCurrentUserInfoForId(@Param(value = "userId") String userId);
 }

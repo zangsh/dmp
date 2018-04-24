@@ -7,6 +7,9 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * 大数据管理平台
@@ -26,6 +29,12 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableCaching
 @MapperScan("com.mw.dmp.dao")
 public class DmpApplication {
+
+	@Bean
+//	@LoadBalanced
+	RestTemplate restTemplate(){
+		return new RestTemplate();
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(DmpApplication.class, args);

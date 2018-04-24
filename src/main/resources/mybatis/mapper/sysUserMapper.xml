@@ -6,4 +6,10 @@
       user_id,username,email,mobile,create_time,company
       FROM sys_user WHERE username = #{params.username} AND `password` = #{params.password} AND deletestatus = 0
     </select>
+
+    <select id="getCurrentUserInfoForId" parameterType="String" resultType="Map">
+        SELECT
+        user_id,username,email,mobile,create_time,company
+        FROM sys_user WHERE user_id = #{userId} AND deletestatus = 0
+    </select>
 </mapper>

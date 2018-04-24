@@ -23,7 +23,7 @@ import java.util.*;
 @RequestMapping(value = "/menu", produces = MediaType.APPLICATION_JSON_VALUE)
 public class SysMenu {
 
-    private static final Logger logger = LoggerFactory.getLogger(SysMenu.class);
+    private static Logger logger = LoggerFactory.getLogger(SysMenu.class);
 
     @Autowired
     private ISysMenu iSysMenu;

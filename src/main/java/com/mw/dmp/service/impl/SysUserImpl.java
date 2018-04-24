@@ -20,4 +20,9 @@ public class SysUserImpl implements ISysUser {
         params.put("password",password);
         return sysUserDao.getUserInfo(params);
     }
+
+    @Override
+    public Map getCurrentUserInfoForId(String userId) {
+        return sysUserDao.getCurrentUserInfoForId(userId);
+    }
 }

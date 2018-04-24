@@ -33,12 +33,4 @@ public class UserUtils {
         return redisUtils.get(getToken(request)).toString();
     }
 
-    /**
-     * 根据当前用户的token获取userId管理username获取userInfo
-     * @param request
-     * @return  用户信息json string
-     */
-    public String getCurrentUserInfo(HttpServletRequest request){
-        return redisUtils.get(getUserId(request)).toString();
-    }
 }
