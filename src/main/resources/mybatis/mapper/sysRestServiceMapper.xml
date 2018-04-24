@@ -2,14 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mw.dmp.dao.ISysRestServiceDao" >
     <select id="getRestServiceList" parameterType="Map" resultType="Map">
-        SELECT id,`code`,`name`,url,description,companyId FROM rest_service WHERE deletestatus = 0
+        SELECT id,`code`,`name`,url,description,companyId,echart_code FROM rest_service WHERE deletestatus = 0
         <if test="params.name != null and params.name != ''">
             AND name LIKE CONCAT('%',#{params.name},'%')
         </if>
     </select>
 
     <select id="getRestServiceByCode" parameterType="Map" resultType="Map">
-        SELECT id,`code`,`name`,url,description,companyId FROM rest_service WHERE deletestatus = 0
+        SELECT id,`code`,`name`,url,description,companyId,echart_code FROM rest_service WHERE deletestatus = 0
         AND code = #{code}
     </select>
 </mapper>
